@@ -33,14 +33,11 @@
 
     /* Light mode viewer styling */
     model-viewer {
-      width: 150vmax; height: 150vmax;
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) rotate(0deg);
-      transform-origin: center center;
+      width: 100%; height: 100%;
+      position: absolute; top: 0; left: 0;
       background-color: transparent;
       --poster-color: transparent;
       outline: none;
-      /* Add subtle noise or gradient to background if needed, but solid color is clean */
     }
     
     #ui-container {
@@ -143,6 +140,7 @@
     camera-controls 
     auto-rotate 
     bounds="tight"
+    orientation="0deg 0deg 0deg"
     shadow-intensity="1.5"
     shadow-softness="1"
     exposure="1"
@@ -292,7 +290,9 @@
     rollSlider.addEventListener('input', () => {
       const roll = rollSlider.value;
       document.getElementById('roll-val').textContent = `${roll}°`;
-      viewer.style.transform = `translate(-50%, -50%) rotate(${roll}deg)`;
+      
+      // Use native orientation to roll the model rather than CSS, preserving solid camera math
+      viewer.orientation = `0deg 0deg ${roll}deg`;
     });
 
     window.resetCamera = function() {
@@ -306,7 +306,9 @@
       
       fovSlider.value = 30; document.getElementById('fov-val').textContent = "30°";
       rollSlider.value = 0; document.getElementById('roll-val').textContent = "0°";
-      viewer.style.transform = `translate(-50%, -50%) rotate(0deg)`;
+      
+      // Reset orientation instead of CSS style
+      viewer.orientation = `0deg 0deg 0deg`;
       
       setTimeout(() => {
         viewer.setAttribute('min-field-of-view', `30deg`);
