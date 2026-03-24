@@ -137,18 +137,18 @@
 </head>
 <body>
 
-  <!-- disable-zoom is crucial! It stops default fast zooming so we can use smooth slow manual zooming -->
+  <!-- Removed disable-zoom to restore native mobile pinch-to-zoom! Mouse scroll is intercepted below. -->
   <model-viewer 
     id="viewer" 
     camera-controls 
-    disable-zoom
     auto-rotate 
+    bounds="tight"
     shadow-intensity="1.5"
     shadow-softness="1"
     exposure="1"
     environment-image="neutral"
-    min-camera-orbit="auto auto 0.01m"
-    max-camera-orbit="auto auto 1000m"
+    min-camera-orbit="auto auto 0m"
+    max-camera-orbit="auto auto 500000m"
     min-field-of-view="1deg"
     max-field-of-view="180deg"
     alt="3D Model Viewer">
@@ -248,6 +248,10 @@
       if (!url) return;
       viewer.src = url; 
       
+      // Force auto-frame computation on every single new model so it always fits perfectly into the screen!
+      viewer.cameraOrbit = "0deg 90deg auto";
+      viewer.cameraTarget = "auto auto auto";
+      
       viewer.classList.remove('fade-in');
       void viewer.offsetWidth;
       viewer.classList.add('fade-in');
@@ -255,21 +259,21 @@
     }
 
     // --- SLOW FINE-TUNED ZOOM LOGIC ---
-    // Because 'disable-zoom' is used, we have total control over the scroll wheel!
+    // Here we intercept the mouse wheel. It natively prevents the super fast component zoom, 
+    // replacing it with our slow slider equation. Touch pinch-to-zoom is safely ignored by this!
     viewer.addEventListener('wheel', (e) => {
       e.preventDefault();
       const currentOrbit = viewer.getCameraOrbit(); // {theta, phi, radius}
       
       // zoomSpeed controls the multiplier. 0.05 = 5% change per wheel tick. 
-      // This is incredibly finely tuned!
       const zoomSpeed = 0.05; 
       const delta = e.deltaY > 0 ? (1 + zoomSpeed) : (1 - zoomSpeed);
       
       let newRadius = currentOrbit.radius * delta;
       
-      // Clamp bounds
-      if(newRadius < 0.01) newRadius = 0.01;
-      if(newRadius > 10000) newRadius = 10000;
+      // Clamp bounds extensively
+      if(newRadius < 0.001) newRadius = 0.001;
+      if(newRadius > 500000) newRadius = 500000;
       
       viewer.cameraOrbit = `${currentOrbit.theta}rad ${currentOrbit.phi}rad ${newRadius}m`;
     }, { passive: false });
