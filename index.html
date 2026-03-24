@@ -145,10 +145,6 @@
     shadow-softness="1"
     exposure="1"
     environment-image="neutral"
-    min-camera-orbit="auto auto 0m"
-    max-camera-orbit="auto auto 500000m"
-    min-field-of-view="1deg"
-    max-field-of-view="180deg"
     alt="3D Model Viewer">
   </model-viewer>
 
@@ -246,10 +242,6 @@
       if (!url) return;
       viewer.src = url; 
       
-      // Force auto-frame computation on every single new model so it always fits perfectly into the screen!
-      viewer.cameraOrbit = "0deg 90deg auto";
-      viewer.cameraTarget = "auto auto auto";
-      
       viewer.classList.remove('fade-in');
       void viewer.offsetWidth;
       viewer.classList.add('fade-in');
@@ -281,10 +273,6 @@
       const fov = fovSlider.value;
       document.getElementById('fov-val').textContent = `${fov}°`;
       viewer.fieldOfView = `${fov}deg`;
-      
-      // Pin FOV permanently
-      viewer.setAttribute('min-field-of-view', `${fov}deg`);
-      viewer.setAttribute('max-field-of-view', `${fov}deg`);
     });
 
     rollSlider.addEventListener('input', () => {
@@ -296,9 +284,6 @@
     });
 
     window.resetCamera = function() {
-      viewer.setAttribute('min-field-of-view', '1deg');
-      viewer.setAttribute('max-field-of-view', '180deg');
-      
       viewer.cameraOrbit = "0deg 90deg auto";
       viewer.fieldOfView = "30deg";
       viewer.cameraTarget = "auto auto auto";
@@ -309,11 +294,6 @@
       
       // Reset orientation instead of CSS style
       viewer.orientation = `0deg 0deg 0deg`;
-      
-      setTimeout(() => {
-        viewer.setAttribute('min-field-of-view', `30deg`);
-        viewer.setAttribute('max-field-of-view', `30deg`);
-      }, 50);
     }
   </script>
 </body>
