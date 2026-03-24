@@ -138,7 +138,6 @@
   <model-viewer 
     id="viewer" 
     camera-controls 
-    auto-rotate 
     bounds="tight"
     orientation="0deg 0deg 0deg"
     max-camera-orbit="auto auto 1000%"
@@ -288,7 +287,6 @@
       viewer.cameraOrbit = "0deg 90deg auto";
       viewer.fieldOfView = "30deg";
       viewer.cameraTarget = "auto auto auto";
-      viewer.autoRotate = true;
       
       fovSlider.value = 30; document.getElementById('fov-val').textContent = "30°";
       rollSlider.value = 0; document.getElementById('roll-val').textContent = "0°";
