@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blender Models Portfolio</title>
+  <title>Blender 模型展示</title>
   
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
   
@@ -150,8 +150,8 @@
 
   <div id="ui-container">
     <div class="header">
-      <h1 id="model-title">Model Portfolio</h1>
-      <p>Select a model from the dropdown to load</p>
+      <h1 id="model-title">模型展示</h1>
+      <p>请从下拉菜单中选择一个模型进行加载</p>
     </div>
     
     <div class="camera-panel">
@@ -160,11 +160,11 @@
           <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
           <circle cx="12" cy="13" r="4"></circle>
         </svg>
-        Camera Settings
+        相机设置
       </h3>
       
       <div class="control-group">
-        <label>Field of View (FOV/Lens)</label>
+        <label>视野 (FOV/镜头)</label>
         <div class="slider-row">
           <input type="range" id="fov-slider" min="10" max="150" value="30">
           <span id="fov-val">30°</span>
@@ -172,20 +172,20 @@
       </div>
       
       <div class="control-group">
-        <label>View Axis Rotation (Roll)</label>
+        <label>视角旋转 (Roll)</label>
         <div class="slider-row">
           <input type="range" id="roll-slider" min="-180" max="180" value="0">
           <span id="roll-val">0°</span>
         </div>
       </div>
       
-      <button class="btn" onclick="resetCamera()" style="width: 100%; margin-top: 10px;">Reset Camera</button>
+      <button class="btn" onclick="resetCamera()" style="width: 100%; margin-top: 10px;">重置相机</button>
     </div>
     
     <div class="controls">
-      <label for="model-selector" style="font-weight: 500; font-size: 0.95rem; color: #475569;">Viewing:</label>
+      <label for="model-selector" style="font-weight: 500; font-size: 0.95rem; color: #475569;">当前模型：</label>
       <select id="model-selector" class="dropdown">
-        <option value="" disabled selected>Loading models list...</option>
+        <option value="" disabled selected>正在加载模型列表...</option>
       </select>
     </div>
   </div>
@@ -205,14 +205,14 @@
       selector.innerHTML = ''; 
       
       if (!window.MODELS_LIST) {
-        selector.innerHTML = '<option disabled>Please double-click update_models.bat first.</option>';
+        selector.innerHTML = '<option disabled>请先双击运行 update_models.bat。</option>';
         return;
       }
       
       const models = window.MODELS_LIST;
       
       if(models.length === 0) {
-        selector.innerHTML = '<option disabled>No models found in folder.</option>';
+        selector.innerHTML = '<option disabled>文件夹中未找到模型。</option>';
         return;
       }
       
